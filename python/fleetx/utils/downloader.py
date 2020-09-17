@@ -26,10 +26,11 @@ def check_images_ready(local_path):
             ready_list = []
             for line in fin:
                 current_image = line.split(' ')
-                filelist.append(current_image)
+                filelist.append(current_image[0])
                 image_path = "{}/train/{}".format(local_path, current_image[0])
                 if os.path.exists(image_path):
                     ready_list.append(image_path)
+            print("readyyyyyyyy:", len(ready_list))
             if len(filelist) == len(ready_list):
                 return
             else:
@@ -145,19 +146,26 @@ class ImageNetDownloader(Downloader):
         PADDLE_TRAINER_ENDPOINTS = os.environ.get('PADDLE_TRAINER_ENDPOINTS')
         endpoints = PADDLE_TRAINER_ENDPOINTS.split(",")
         current_endpoint = os.environ.get('PADDLE_CURRENT_ENDPOINT')
+        hostname, _ = current_endpoint.split(":")
+        host_endpoints = [x for x in endpoints if x.split(":")[0] == hostname]
         need_download = check_exists(local_path)
+        print("testttttt", host_endpoints.index(current_endpoint),
+              len(host_endpoints))
         if need_download:
             multi_download(client, hdfs_path, local_path,
-                           endpoints.index(current_endpoint),
-                           len(endpoints), 12)
-        tar_list = untar_files_with_check(local_path,
-                                          endpoints.index(current_endpoint),
-                                          len(endpoints))
+                           host_endpoints.index(current_endpoint),
+                           len(host_endpoints), 12)
+        print("before untar")
+        tar_list = untar_files_with_check(
+            local_path,
+            host_endpoints.index(current_endpoint), len(host_endpoints))
+        print("before untar 2")
         if os.path.exists("{}/train".format(local_path)):
             print(
                 "Warning: You may already have imagenet dataset in {}, please check!".
                 format(local_path))
         untar_files(local_path, tar_list)
+        print("after untar")
         check_images_ready(local_path)
         return local_path
 
