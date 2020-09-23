@@ -46,16 +46,16 @@ def load_bert_dataset(data_dir,
             in_tokens=in_tokens,
             max_seq_len=max_seq_len,
             shuffle_files=True)
-
-    data_reader = DataReader(
-        data_dir=data_dir,
-        batch_size=batch_size,
-        in_tokens=in_tokens,
-        vocab_path=vocab_path,
-        voc_size=voc_size,
-        epoch=1,
-        max_seq_len=max_seq_len,
-        generate_neg_sample=generate_neg_sample)
+    else:
+        data_reader = DataReader(
+            data_dir=data_dir,
+            batch_size=batch_size,
+            in_tokens=in_tokens,
+            vocab_path=vocab_path,
+            voc_size=voc_size,
+            epoch=1,
+            max_seq_len=max_seq_len,
+            generate_neg_sample=generate_neg_sample)
 
     places = fluid.CUDAPlace(int(os.environ.get('FLAGS_selected_gpus', 0)))
     data_loader.set_batch_generator(data_reader.data_generator(), places)
