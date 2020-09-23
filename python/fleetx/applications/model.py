@@ -231,6 +231,7 @@ class BertLarge(ModelBase):
     def load_digital_dataset_from_file(self,
                                        data_dir,
                                        vocab_path,
+                                       lang='ch',
                                        batch_size=16,
                                        max_seq_len=128,
                                        in_tokens=False):
@@ -239,6 +240,7 @@ class BertLarge(ModelBase):
             vocab_path,
             inputs=self.inputs,
             batch_size=batch_size,
+            lang=lang,
             max_seq_len=max_seq_len,
             in_tokens=in_tokens)
 
@@ -262,6 +264,7 @@ class BertHuge(ModelBase):
                                        data_dir,
                                        vocab_path,
                                        batch_size=16,
+                                       lang='ch',
                                        max_seq_len=128,
                                        in_tokens=False):
         return load_bert_dataset(
@@ -269,6 +272,7 @@ class BertHuge(ModelBase):
             vocab_path,
             inputs=self.inputs,
             batch_size=batch_size,
+            lang=lang,
             max_seq_len=max_seq_len,
             in_tokens=in_tokens)
 
@@ -292,6 +296,7 @@ class BertGiant(ModelBase):
                                        data_dir,
                                        vocab_path,
                                        batch_size=16,
+                                       lang='ch',
                                        max_seq_len=128,
                                        in_tokens=False):
         return load_bert_dataset(
@@ -299,6 +304,7 @@ class BertGiant(ModelBase):
             vocab_path,
             inputs=self.inputs,
             batch_size=batch_size,
+            lang=lang,
             max_seq_len=max_seq_len,
             in_tokens=in_tokens)
 
@@ -325,6 +331,7 @@ class BertBase(ModelBase):
                                        data_dir,
                                        vocab_path,
                                        batch_size=4096,
+                                       lang='ch',
                                        max_seq_len=512,
                                        in_tokens=True):
         return load_bert_dataset(
@@ -332,6 +339,7 @@ class BertBase(ModelBase):
             vocab_path,
             inputs=self.inputs,
             batch_size=batch_size,
+            lang=lang,
             max_seq_len=max_seq_len,
             in_tokens=in_tokens)
 

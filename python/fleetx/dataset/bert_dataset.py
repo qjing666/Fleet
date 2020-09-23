@@ -614,11 +614,13 @@ def get_filelist(datadir):
         raise Exception("ERROR: Your data dir should include train.txt")
 
     total_list = []
+    full_list = []
     with open("{}/train.txt".format(datadir), 'r') as fin:
         for line in fin:
             current_file = line.strip()
             if os.path.exists("{}/{}".format(datadir, current_file)):
                 total_list.append(current_file)
+            full_list.append(current_file)
     total_num = len(total_list)
     PADDLE_TRAINER_ENDPOINTS = os.environ.get('PADDLE_TRAINER_ENDPOINTS')
     current_endpoint = os.environ.get('PADDLE_CURRENT_ENDPOINT')
@@ -627,6 +629,7 @@ def get_filelist(datadir):
     host_endpoints = [x for x in endpoints if x.split(":")[0] == hostname]
     current_id = host_endpoints.index(current_endpoint)
     total_local_cards = len(host_endpoints)
+    print(total_list)
     print("files to train on this card: {}".format(total_list[
         current_id::total_local_cards]))
     return total_list[current_id::total_local_cards]
