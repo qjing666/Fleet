@@ -24,6 +24,7 @@ import os
 import gzip
 import paddle.fluid as fluid
 import numpy as np
+import paddle.distributed.fleet as fleet
 
 
 def load_bert_dataset(data_dir,
@@ -622,6 +623,10 @@ def get_filelist(datadir):
                 total_list.append(current_file)
             full_list.append(current_file)
     total_num = len(total_list)
+    if len(total_list) == len(full_list):
+        print("files to train on this card: {}".format(total_list[
+            fleet.worker_index()::fleet.worker_num()]))
+        return total_list[fleet.worker_index()::fleet.worker_num()]
     PADDLE_TRAINER_ENDPOINTS = os.environ.get('PADDLE_TRAINER_ENDPOINTS')
     current_endpoint = os.environ.get('PADDLE_CURRENT_ENDPOINT')
     endpoints = PADDLE_TRAINER_ENDPOINTS.split(",")
