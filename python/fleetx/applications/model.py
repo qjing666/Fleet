@@ -232,9 +232,9 @@ class BertLarge(ModelBase):
     def load_digital_dataset_from_file(self,
                                        data_dir,
                                        vocab_path,
-                                       batch_size=16,
-                                       max_seq_len=128,
-                                       in_tokens=False):
+                                       batch_size=4096,
+                                       max_seq_len=512,
+                                       in_tokens=True):
         return load_bert_dataset(
             data_dir,
             vocab_path,
@@ -264,9 +264,9 @@ class BertHuge(ModelBase):
     def load_digital_dataset_from_file(self,
                                        data_dir,
                                        vocab_path,
-                                       batch_size=16,
-                                       max_seq_len=128,
-                                       in_tokens=False):
+                                       batch_size=4096,
+                                       max_seq_len=512,
+                                       in_tokens=True):
         return load_bert_dataset(
             data_dir,
             vocab_path,
@@ -296,9 +296,9 @@ class BertGiant(ModelBase):
     def load_digital_dataset_from_file(self,
                                        data_dir,
                                        vocab_path,
-                                       batch_size=16,
-                                       max_seq_len=128,
-                                       in_tokens=False):
+                                       batch_size=4096,
+                                       max_seq_len=512,
+                                       in_tokens=True):
         return load_bert_dataset(
             data_dir,
             vocab_path,
