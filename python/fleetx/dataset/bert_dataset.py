@@ -634,7 +634,6 @@ def get_filelist(datadir):
     host_endpoints = [x for x in endpoints if x.split(":")[0] == hostname]
     current_id = host_endpoints.index(current_endpoint)
     total_local_cards = len(host_endpoints)
-    print(total_list)
     print("files to train on this card: {}".format(total_list[
         current_id::total_local_cards]))
     return total_list[current_id::total_local_cards]
