@@ -75,22 +75,32 @@ class BertLarge(ModelBase):
         self.checkpoints = checkpoints
         self.target = target
 
-    def load_digital_dataset_from_file(self,
-                                       data_dir,
-                                       vocab_path,
-                                       batch_size=16,
-                                       max_seq_len=128,
-                                       in_tokens=False):
+    def get_train_dataloader(self,
+                             data_dir,
+                             batch_size=4096,
+                             max_seq_len=512,
+                             in_tokens=True,
+                             shuffle=True):
+        """
+        Load train Wiki data of language defined in model from local path.
+        """
+        assert batch_size >= max_seq_len, "batch_size should not less than max_seq_len, while get batch_size={} and max_seq_len={}".format(
+            batch_size, max_seq_len)
+        if not in_tokens:
+            batch_size = int(batch_size / max_seq_len)
         return load_bert_dataset(
             data_dir,
-            vocab_path,
             inputs=self.inputs,
             batch_size=batch_size,
+            lang=self.lang,
+            phase='train',
             max_seq_len=max_seq_len,
-            in_tokens=in_tokens)
+            in_tokens=in_tokens,
+            shuffle=shuffle)
+
 ```
 
-在定义子类时，在`__init__()`函数中初始化你的一些变量；在`load_digital_dataset_from_file()`中定义你的reader。
+在定义子类时，在`__init__()`函数中初始化你的一些变量；在`get_train_dataloader / get_val_dataloader `中定义你的reader。
 
 ### Step4 开始运行
 
